@@ -4,7 +4,7 @@
   <groupId>com.lei.guiao2</groupId>
   <artifactId>lazyvim-maven-lab</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>lazyvim-maven-lab</name>
   <url>http://maven.apache.org</url>
   <dependencies>
