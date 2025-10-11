@@ -2,7 +2,7 @@ name: Maven Build & Publish Artifact
 
 on:
   push:
-    branches: [ main ] # (3a) Triggered on a push to the main branch
+    branches: [ main ]
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # (3b) Configure Java 21+ environment
+    
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -19,18 +19,17 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
 
-    # (3c) Execute mvn clean package
+    
     - name: Build with Maven
       run: mvn clean package --file pom.xml
 
-    # (5) Copy the JAR to the repository root
     - name: Copy JAR to project root
-      run: cp target/*.jar .
-      if: success() 
-
-    # (3d) Publish the generated file as an artifact
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: application-jar
-        path: ${{ github.workspace }}/*.jar
+      run: |
+        if [ -f target/*.jar ]; then
+          cp target/*.jar .
+          echo "Successfully copied JAR to root."
+        else
+          echo "Error: JAR file not found in target/ directory."
+          exit 1 # Fail the step if the JAR is missing
+        fi
+      if: success()
